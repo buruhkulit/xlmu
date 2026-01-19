@@ -25,11 +25,11 @@ apt install python-pillow
 ```
 5. Clone this repo
 ```
-git clone https://github.com/buruhkulit/xlku
+git clone https://github.com/buruhkulit/xlmu
 ```
 6. Open the folder
 ```
-cd xlku
+cd xlmu
 ```
 7. Setup
 ```
@@ -60,7 +60,7 @@ python main.py
 
 1. Open the folder
 ```
-cd xlku
+cd xlmu
 ```
 7. Update
 ```
