@@ -13,19 +13,12 @@ from app.client.engsel import (
 from app.client.famplan import validate_msisdn
 from app.menus.payment import show_transaction_history
 from app.service.auth import AuthInstance
-from app.menus.bookmark import show_bookmark_menu
 from app.menus.account import show_account_menu
 from app.menus.package import fetch_my_packages, get_packages_by_family, show_package_details
 from app.menus.paket import show_paket_buruh, show_paket_extra
 from app.service.sentry import enter_sentry_mode
 from app.menus.purchase import purchase_by_family
 from app.menus.famplan import show_family_info
-from app.menus.circle import show_circle_info
-from app.menus.notification import show_notification_menu
-from app.menus.store.segments import show_store_segments_menu
-from app.menus.store.search import show_family_list_menu, show_store_packages_menu
-from app.menus.store.redemables import show_redeemables_menu
-from app.client.registration import dukcapil
 
 WIDTH = 55
 
