@@ -11,7 +11,7 @@ from app.type_dict import PaymentItem
 
 WIDTH = 55
 
-def show_paket_menu1():
+def show_paket_buruh():
     api_key = AuthInstance.api_key
     tokens = AuthInstance.get_active_tokens()
     
@@ -19,12 +19,12 @@ def show_paket_menu1():
     while in_bookmark_menu:
         clear_screen()
         print("=" * WIDTH)
-        print("PAKET 1".center(WIDTH))
+        print("PAKET BURUH".center(WIDTH))
         print("=" * WIDTH)
         
         hot_packages = []
         
-        with open("paket_data/paket1.json", "r", encoding="utf-8") as f:
+        with open("paket_data/paket buruh.json", "r", encoding="utf-8") as f:
             hot_packages = json.load(f)
 
         for idx, p in enumerate(hot_packages):
@@ -79,12 +79,12 @@ def show_paket_menu2():
         clear_screen()
         main_package_detail = {}
         print("=" * WIDTH)
-        print("PAKET 2".center(WIDTH))
+        print("PAKET EXTRA".center(WIDTH))
         print("=" * WIDTH)
         
         hot_packages = []
         
-        with open("paket_data/paket2.json", "r", encoding="utf-8") as f:
+        with open("paket_data/paket extra.json", "r", encoding="utf-8") as f:
             hot_packages = json.load(f)
 
         for idx, p in enumerate(hot_packages):
