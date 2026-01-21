@@ -40,22 +40,11 @@ def show_main_menu(profile):
     print("Menu:")
     print("1. Login/Ganti akun")
     print("2. Lihat Paket Saya")
-    print("3. Beli Paket 1")
-    print("4. Beli Paket 2")
-    print("5. Beli Paket Berdasarkan Option Code")
-    print("6. Beli Paket Berdasarkan Family Code")
-    print("7. Beli Semua Paket di Family Code (loop)")
-    print("8. Riwayat Transaksi")
-    print("9. Family Plan/Akrab Organizer")
-    print("10. Circle")
-    print("11. Store Segments")
-    print("12. Store Family List")
-    print("13. Store Packages")
-    print("14. Redemables")
-    print("R. Register")
-    print("N. Notifikasi")
-    print("V. Validate msisdn")
-    print("00. Bookmark Paket")
+    print("3. Paket Buruh")
+    print("4. Paket Extra")
+    print("5. Beli Paket Berdasarkan Family Code")
+    print("6. Beli Semua Paket di Family Code")
+    print("7. Riwayat Transaksi")
     print("99. Tutup aplikasi")
     print("-------------------------------------------------------")
 
@@ -105,25 +94,15 @@ def main():
                 fetch_my_packages()
                 continue
             elif choice == "3":
-                show_paket_menu1()
+                show_paket_buruh()
             elif choice == "4":
-                show_paket_menu2()
+                show_paket_extra()
             elif choice == "5":
-                option_code = input("Enter option code (or '99' to cancel): ")
-                if option_code == "99":
-                    continue
-                show_package_details(
-                    AuthInstance.api_key,
-                    active_user["tokens"],
-                    option_code,
-                    False
-                )
-            elif choice == "6":
                 family_code = input("Enter family code (or '99' to cancel): ")
                 if family_code == "99":
                     continue
                 get_packages_by_family(family_code)
-            elif choice == "7":
+            elif choice == "6":
                 family_code = input("Enter family code (or '99' to cancel): ")
                 if family_code == "99":
                     continue
@@ -148,32 +127,8 @@ def main():
                     delay_seconds,
                     start_from_option
                 )
-            elif choice == "8":
+            elif choice == "7":
                 show_transaction_history(AuthInstance.api_key, active_user["tokens"])
-            elif choice == "9":
-                show_family_info(AuthInstance.api_key, active_user["tokens"])
-            elif choice == "10":
-                show_circle_info(AuthInstance.api_key, active_user["tokens"])
-            elif choice == "11":
-                input_11 = input("Is enterprise store? (y/n): ").lower()
-                is_enterprise = input_11 == 'y'
-                show_store_segments_menu(is_enterprise)
-            elif choice == "12":
-                input_12_1 = input("Is enterprise? (y/n): ").lower()
-                is_enterprise = input_12_1 == 'y'
-                show_family_list_menu(profile['subscription_type'], is_enterprise)
-            elif choice == "13":
-                input_13_1 = input("Is enterprise? (y/n): ").lower()
-                is_enterprise = input_13_1 == 'y'
-                
-                show_store_packages_menu(profile['subscription_type'], is_enterprise)
-            elif choice == "14":
-                input_14_1 = input("Is enterprise? (y/n): ").lower()
-                is_enterprise = input_14_1 == 'y'
-                
-                show_redeemables_menu(is_enterprise)
-            elif choice == "00":
-                show_bookmark_menu()
             elif choice == "99":
                 print("Exiting the application.")
                 sys.exit(0)
