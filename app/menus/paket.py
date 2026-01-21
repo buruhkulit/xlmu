@@ -24,7 +24,7 @@ def show_paket_buruh():
         
         hot_packages = []
         
-        with open("paket_data/paket buruh.json", "r", encoding="utf-8") as f:
+        with open("paket_data/paketburuh.json", "r", encoding="utf-8") as f:
             hot_packages = json.load(f)
 
         for idx, p in enumerate(hot_packages):
@@ -84,7 +84,7 @@ def show_paket_menu2():
         
         hot_packages = []
         
-        with open("paket_data/paket extra.json", "r", encoding="utf-8") as f:
+        with open("paket_data/paketextra.json", "r", encoding="utf-8") as f:
             hot_packages = json.load(f)
 
         for idx, p in enumerate(hot_packages):
