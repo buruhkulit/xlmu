@@ -70,7 +70,7 @@ def show_paket_buruh():
             pause()
             continue
 
-def show_paket_menu2():
+def show_paket_extra():
     api_key = AuthInstance.api_key
     tokens = AuthInstance.get_active_tokens()
     
