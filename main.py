@@ -13,33 +13,80 @@ from app.client.engsel import (
 from app.client.famplan import validate_msisdn
 from app.menus.payment import show_transaction_history
 from app.service.auth import AuthInstance
+from app.menus.bookmark import show_bookmark_menu
 from app.menus.account import show_account_menu
 from app.menus.package import fetch_my_packages, get_packages_by_family, show_package_details
-from app.menus.paket import show_paket_buruh, show_paket_extra
+from app.menus.paket import show_paket_menu1, show_paket_menu2
 from app.service.sentry import enter_sentry_mode
 from app.menus.purchase import purchase_by_family
 from app.menus.famplan import show_family_info
+from app.menus.circle import show_circle_info
+from app.menus.notification import show_notification_menu
+from app.menus.store.segments import show_store_segments_menu
+from app.menus.store.search import show_family_list_menu, show_store_packages_menu
+from app.menus.store.redemables import show_redeemables_menu
+from app.client.registration import dukcapil
 
 WIDTH = 55
-
 def show_main_menu(profile):
     clear_screen()
-    print("=" * WIDTH)
+    # Warna ANSI sederhana
+    BOLD = "\033[1m"
+    RESET = "\033[0m"
+    
     expired_at_dt = datetime.fromtimestamp(profile["balance_expired_at"]).strftime("%Y-%m-%d")
-    print(f"Nomor: {profile['number']} | Type: {profile['subscription_type']}".center(WIDTH))
-    print(f"Pulsa: Rp {profile['balance']} | Aktif sampai: {expired_at_dt}".center(WIDTH))
-    print(f"{profile['point_info']}".center(WIDTH))
-    print("=" * WIDTH)
-    print("Menu:")
-    print("1. Login/Ganti akun")
-    print("2. Lihat Paket Saya")
-    print("3. Paket Buruh")
-    print("4. Paket Extra")
-    print("5. Beli Paket Berdasarkan Family Code")
-    print("6. Beli Semua Paket di Family Code")
-    print("7. Riwayat Transaksi")
-    print("99. Tutup aplikasi")
-    print("-------------------------------------------------------")
+    
+    # --- HEADER DASHBOARD ---
+    print(f"{BOLD}{' DASHBOARD AKUN '.center(WIDTH)}{RESET}")
+    print(f" ".center(WIDTH))
+    
+    # Mengelompokkan menu agar lebih rapi
+    header = [
+        (f" {BOLD}Nomor  :{RESET} {profile['number']} ({profile['subscription_type']})", f""),
+        (f" {BOLD}Pulsa  :{RESET} Rp {profile['balance']:,}", f""),
+        (f" {BOLD}Aktif  :{RESET} {expired_at_dt}", f""),
+        (f" {BOLD}Points :{RESET} {profile['point_info']}", f""),
+    ]
+    for h1, h2 in header:
+        # Gunakan ljust(35) atau sesuaikan dengan lebar kolom yang diinginkan
+        print(f"  {h1.ljust(27)} {h2}")
+        
+    # --- MENU CATEGORIES ---
+    print(f" ".center(WIDTH))
+    print(f"\n{BOLD}{' MAIN MENU '.center(WIDTH)}{RESET}")
+    print(f" ".center(WIDTH))
+
+    # Mengelompokkan menu agar lebih rapi
+    menus = [
+        (f" {BOLD}1.{RESET} Login/Ganti Akun", f" {BOLD}8.{RESET} Riwayat Tx"),
+        (f" {BOLD}2.{RESET} Paket Saya", f" {BOLD}9.{RESET} Family Plan"),
+        (f" {BOLD}3.{RESET} Beli Paket 1", f"{BOLD}10.{RESET} Circle"),
+        (f" {BOLD}4.{RESET} Beli Paket 2", f"{BOLD}11.{RESET} Store Segments"),
+        (f" {BOLD}5.{RESET} Option Code", f"{BOLD}12.{RESET} Family List"),
+        (f" {BOLD}6.{RESET} Family Code", f"{BOLD}13.{RESET} Store Packages"),
+        (f" {BOLD}7.{RESET} Bulk Buy (Loop)", f"{BOLD}14.{RESET} Redeemables"),
+    ]
+    for m1, m2 in menus:
+        # Gunakan ljust(35) atau sesuaikan dengan lebar kolom yang diinginkan
+        print(f"  {m1.ljust(31)} {m2}")
+        
+    print(f" ".center(WIDTH))
+    print(f"\n{BOLD}{' TOOLS & SYSTEM '.center(WIDTH)}{RESET}")
+    print(f" ".center(WIDTH))
+
+    # Mengelompokkan menu agar lebih rapi
+    tools = [
+        (f" {BOLD}N.{RESET} Notifikasi", f" {BOLD}00.{RESET} Bookmark"),
+        (f" {BOLD}R.{RESET} Register", f" {BOLD}99.{RESET} Tutup App"),
+        (f" {BOLD}V.{RESET} Validate MSISDN", f""),
+    ]
+    for t1, t2 in tools:
+        # Gunakan ljust(35) atau sesuaikan dengan lebar kolom yang diinginkan
+        print(f"  {t1.ljust(31)} {t2}")
+
+    print(f" ".center(WIDTH))       
+
+
 
 show_menu = True
 def main():
@@ -59,7 +106,8 @@ def main():
                 tiering_data = get_tiering_info(AuthInstance.api_key, active_user["tokens"])
                 tier = tiering_data.get("tier", 0)
                 current_point = tiering_data.get("current_point", 0)
-                point_info = f"Points: {current_point} | Tier: {tier}"
+                point_info = f"{current_point} (Tier {tier})"
+                
             
             profile = {
                 "number": active_user["number"],
@@ -87,15 +135,25 @@ def main():
                 fetch_my_packages()
                 continue
             elif choice == "3":
-                show_paket_buruh()
+                show_paket_menu1()
             elif choice == "4":
-                show_paket_extra()
+                show_paket_menu2()
             elif choice == "5":
+                option_code = input("Enter option code (or '99' to cancel): ")
+                if option_code == "99":
+                    continue
+                show_package_details(
+                    AuthInstance.api_key,
+                    active_user["tokens"],
+                    option_code,
+                    False
+                )
+            elif choice == "6":
                 family_code = input("Enter family code (or '99' to cancel): ")
                 if family_code == "99":
                     continue
                 get_packages_by_family(family_code)
-            elif choice == "6":
+            elif choice == "7":
                 family_code = input("Enter family code (or '99' to cancel): ")
                 if family_code == "99":
                     continue
@@ -120,8 +178,32 @@ def main():
                     delay_seconds,
                     start_from_option
                 )
-            elif choice == "7":
+            elif choice == "8":
                 show_transaction_history(AuthInstance.api_key, active_user["tokens"])
+            elif choice == "9":
+                show_family_info(AuthInstance.api_key, active_user["tokens"])
+            elif choice == "10":
+                show_circle_info(AuthInstance.api_key, active_user["tokens"])
+            elif choice == "11":
+                input_11 = input("Is enterprise store? (y/n): ").lower()
+                is_enterprise = input_11 == 'y'
+                show_store_segments_menu(is_enterprise)
+            elif choice == "12":
+                input_12_1 = input("Is enterprise? (y/n): ").lower()
+                is_enterprise = input_12_1 == 'y'
+                show_family_list_menu(profile['subscription_type'], is_enterprise)
+            elif choice == "13":
+                input_13_1 = input("Is enterprise? (y/n): ").lower()
+                is_enterprise = input_13_1 == 'y'
+                
+                show_store_packages_menu(profile['subscription_type'], is_enterprise)
+            elif choice == "14":
+                input_14_1 = input("Is enterprise? (y/n): ").lower()
+                is_enterprise = input_14_1 == 'y'
+                
+                show_redeemables_menu(is_enterprise)
+            elif choice == "00":
+                show_bookmark_menu()
             elif choice == "99":
                 print("Exiting the application.")
                 sys.exit(0)
