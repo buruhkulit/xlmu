@@ -65,7 +65,7 @@ def show_main_menu(profile):
     # Mengelompokkan menu agar lebih rapi
     tools = [
         f" {BOLD}N.{RESET} Notifikasi",
-        f" {BOLD}99.{RESET} Tutup App"),
+        f" {BOLD}99.{RESET} Tutup App",
     ]
     for menu in tools:
         print(f"  {menu}")
