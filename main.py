@@ -10,7 +10,6 @@ from app.client.engsel import (
     get_balance,
     get_tiering_info,
 )
-from app.client.famplan import validate_msisdn
 from app.menus.payment import show_transaction_history
 from app.service.auth import AuthInstance
 from app.menus.account import show_account_menu
