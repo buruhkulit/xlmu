@@ -11,7 +11,6 @@ from app.client.purchase.qris import show_qris_payment
 from app.client.purchase.ewallet import show_multipayment
 from app.client.purchase.balance import settlement_balance
 from app.type_dict import PaymentItem
-from app.menus.purchase import purchase_n_times, purchase_n_times_by_option_code
 from app.menus.util import format_quota_byte
 from app.service.decoy import DecoyInstance
 
