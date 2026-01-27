@@ -5,7 +5,6 @@ import requests
 from app.service.auth import AuthInstance
 from app.client.engsel import get_family, get_package, get_addons, get_package_details, send_api_request, unsubscribe
 from app.client.ciam import get_auth_code
-from app.service.bookmark import BookmarkInstance
 from app.client.purchase.redeem import settlement_bounty, settlement_loyalty, bounty_allotment
 from app.menus.util import clear_screen, pause, display_html
 from app.client.purchase.qris import show_qris_payment
