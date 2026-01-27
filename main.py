@@ -29,56 +29,51 @@ from app.client.registration import dukcapil
 
 from datetime import datetime
 
-WIDTH = 55
 def show_main_menu(profile):
     clear_screen()
-    # Warna ANSI sederhana
-    BOLD = "\033[1m"
-    RESET = "\033[0m"
-    
-    expired_at_dt = datetime.fromtimestamp(profile["balance_expired_at"]).strftime("%Y-%m-%d")
-    
-    # --- HEADER DASHBOARD ---
-    print(f"{BOLD}{' DASHBOARD AKUN '.center(WIDTH)}{RESET}")
-    print(f" ".center(WIDTH))
-    
-    # Mengelompokkan menu agar lebih rapi
-    header = [
-        f" {BOLD}Nomor  :{RESET} {profile['number']} ({profile['subscription_type']})",
-        f" {BOLD}Pulsa  :{RESET} Rp {profile['balance']:,}",
-        f" {BOLD}Aktif  :{RESET} {expired_at_dt}",
-        f" {BOLD}Points :{RESET} {profile['point_info']}",
-    ]
-    for menu in header:
-        print(f"  {menu}")
-        
-    # --- MENU CATEGORIES ---
-    print(f" ".center(WIDTH))
-    print(f"\n{BOLD}{' MAIN MENU '.center(WIDTH)}{RESET}")
-    print(f" ".center(WIDTH))
+    BOLD, RESET = "\033[1m", "\033[0m"
+    WIDTH = 55
 
-    # Mengelompokkan menu agar lebih rapi
-    menus = [
-        f"{BOLD}1.{RESET} Login/Ganti Akun",
-        f"{BOLD}2.{RESET} Paket Saya",
-        f"{BOLD}3.{RESET} Beli Paket 1",
-        f"{BOLD}4.{RESET} Family Code"
-    ]
-    for menu in menus:
-        print(f"  {menu}")
-        
-    print(f" ".center(WIDTH))
-    print(f"\n{BOLD}{' TOOLS & SYSTEM '.center(WIDTH)}{RESET}")
-    print(f" ".center(WIDTH))
+    # Helper untuk cetak header bagian
+    def print_section(title):
+        print(f"\n{BOLD}{title.center(WIDTH)}{RESET}")
+        print(" " * WIDTH) # Memberikan spasi kosong di bawah judul
 
-    # Mengelompokkan menu agar lebih rapi
-    tools = [
-        f" {BOLD}N.{RESET} Notifikasi",
-        f" {BOLD}99.{RESET} Tutup App",
-    ]
-    for menu in tools:
-        print(f"  {menu}")
-    print(f" ".center(WIDTH))       
+    # Helper untuk cetak menu dalam kolom
+    def print_grid(items, padding=31):
+        for left, right in items:
+            print(f"  {left.ljust(padding)} {right}")
+
+    # 1. Dashboard Info
+    expired = datetime.fromtimestamp(profile["balance_expired_at"]).strftime("%Y-%m-%d")
+    print_section("DASHBOARD AKUN")
+    print_grid([
+        (f" {BOLD}Nomor  :{RESET} {profile['number']} ({profile['subscription_type']})", ""),
+        (f" {BOLD}Pulsa  :{RESET} Rp {profile['balance']:,}", ""),
+        (f" {BOLD}Aktif  :{RESET} {expired}", ""),
+        (f" {BOLD}Points :{RESET} {profile['point_info']}", ""),
+    ], padding=27)
+
+    # 2. Main Menu
+    print_section("MAIN MENU")
+    print_grid([
+        (f" {BOLD}1.{RESET} Login/Ganti Akun", f" {BOLD}8.{RESET} Riwayat Tx"),
+        (f" {BOLD}2.{RESET} Paket Saya",        f" {BOLD}9.{RESET} Family Plan"),
+        (f" {BOLD}3.{RESET} Beli Paket 1",      f"{BOLD}10.{RESET} Circle"),
+        (f" {BOLD}4.{RESET} Beli Paket 2",      f"{BOLD}11.{RESET} Store Segments"),
+        (f" {BOLD}5.{RESET} Option Code",       f"{BOLD}12.{RESET} Family List"),
+        (f" {BOLD}6.{RESET} Family Code",       f"{BOLD}13.{RESET} Store Packages"),
+        (f" {BOLD}7.{RESET} Bulk Buy (Loop)",   f"{BOLD}14.{RESET} Redeemables"),
+    ])
+
+    # 3. Tools & System
+    print_section("TOOLS & SYSTEM")
+    print_grid([
+        (f" {BOLD}N.{RESET} Notifikasi",      f" {BOLD}00.{RESET} Bookmark"),
+        (f" {BOLD}R.{RESET} Register",        f" {BOLD}99.{RESET} Tutup App"),
+        (f" {BOLD}V.{RESET} Validate MSISDN", ""),
+    ])
+    print("\n" + " " * WIDTH)
 
 def main():
     
